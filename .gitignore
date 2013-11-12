@@ -1,0 +1,10 @@
+*bin/
+*obj/
+*.suo
+*.user
+
+App_Data/
+
+*/Web.config
+
+*.DS_Store

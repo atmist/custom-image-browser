@@ -1,0 +1,33 @@
+﻿@model ImageBrowserModel
+        
+
+<div class="if-image-browser white-popup-block lg">
+
+    <h2 class="popup-title">My Images</h2>
+
+    <button title="Close (Esc)" type="button" class="mfp-close">×</button>
+
+    <div class="row button-group">
+        <div class="image-browser-controls col-sm-3">
+            @*Upload an image*@
+            <div id="file-uploader">       
+                <noscript>          
+                    <p>Please enable JavaScript to use file uploader.</p>
+                </noscript>         
+            </div> 
+        </div>
+    </div>
+    
+    <div class="image-browser-tip">
+        <span class="message"><em>Click on an image to insert it into editor.</em></span>
+    </div>
+
+    @*Browse for an image*@
+    <div id="image-browser" class="@(Model.Images.Count() >= 0 ? "active" : "")">
+        @foreach (ImageModel image in Model.Images)
+        {
+            @Html.Partial("_Image", image)
+        }
+
+    </div>
+</div>
