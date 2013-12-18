@@ -2,35 +2,51 @@
     tinymce.init({
         selector: "textarea",
         plugins: [
-            "advlist autolink lists link image charmap print preview anchor",
-            "searchreplace visualblocks code fullscreen",
-            "insertdatetime media table contextmenu paste"
+            "autolink lists link image print preview anchor",
+            "searchreplace fullscreen",
+            "paste"
         ],
-        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link imagebrowser",
-
+        toolbar: "undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link imagebrowser",
+        menu: {
+            file: { title: 'File', items: 'newdocument print' },
+            edit: { title: 'Edit', items: 'undo redo  | cut copy paste selectall | searchreplace' },
+            insert: { title: 'Insert', items: 'imagebrowser link' }
+        },
         height: '600',
         setup: function (ed) {
             ed.addButton('imagebrowser', {
                 title: 'Insert Image',
                 icon: 'image',
                 onclick: function () {
-                    $.get($.url('Media/ImageBrowser'), function (html) {
-                        var popup = $('<img>').magnificPopup({
-                            items: {
-                                src: html
-                            },
-                            modal: true,
-                            callbacks: {
-                                open: function () {
-                                    $(document).trigger('init-uploader');
-                                }
-                            }
-                        });
-                        $.magnificPopup.instance.close()
-                        popup.magnificPopup('open');
-                    });
+                    addImage();
                 }
             });
+            ed.addMenuItem('imagebrowser', {
+                text: 'Insert Image',
+                icon: 'image',
+                context: 'insert',
+                onclick: function () {
+                    addImage();
+                }
+            });
+
+            function addImage() {
+                $.get($.url('Media/ImageBrowser'), function (html) {
+                    var popup = $('<img>').magnificPopup({
+                        items: {
+                            src: html
+                        },
+                        modal: true,
+                        callbacks: {
+                            open: function () {
+                                $(document).trigger('init-uploader');
+                            }
+                        }
+                    });
+                    $.magnificPopup.instance.close()
+                    popup.magnificPopup('open');
+                });
+            }
         }
     });
 

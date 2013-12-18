@@ -1,14 +1,13 @@
 ﻿html {
-    background-color: #e2e2e2;
+    background-color: #F2F2F2;
     margin: 0;
     padding: 0;
 }
 
 body {
-    background-color: #fff;
-    border-top: solid 10px #000;
+    background-color: #F2F2F2;
     color: #333;
-    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+    font-family: Helvetica, Sans-Serif;
     margin: 0;
     padding: 0;
 }
@@ -68,9 +67,13 @@ h5, h6 {
 }
 
 #body {
-    background-color: #efeeef;
+    background-color: #F2F2F2;
     clear: both;
     padding-bottom: 35px;
+}
+
+header {
+    background-color: #F2F2F2;
 }
 
 header .content-wrapper {
@@ -79,7 +82,7 @@ header .content-wrapper {
 
 footer {
     clear: both;
-    background-color: #e2e2e2;
+    background-color: #F2F2F2;
     font-size: .8em;
     height: 100px;
 }
@@ -88,15 +91,15 @@ footer {
 /* site title
 ----------------------------------------------------------*/
 .site-title {
-    color: #c8c8c8;
-    font-family: Rockwell, Consolas, "Courier New", Courier, monospace;
-    font-size: 2.3em;
+    font-family: Helvetica, Sans-Serif;
+    font-size: 3.5em;
     margin: 0;
+    text-align: center;
 }
 
 .site-title a, .site-title a:hover, .site-title a:active {
     background: none;
-    color: #c8c8c8;
+    color: #707070;
     outline: none;
     text-decoration: none;
 }
@@ -120,8 +123,12 @@ footer p {
 }
 
 
-/* popup
+/* 
 ----------------------------------------------------------*/
+
+.main-content form {
+    margin-top: 30px;
+}
 
 .white-popup-block {
   position: relative;
@@ -263,3 +270,4 @@ footer p {
     text-decoration: underline;
     background-color: transparent;    
 }
+
