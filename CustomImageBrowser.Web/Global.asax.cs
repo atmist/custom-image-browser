@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
@@ -23,6 +24,38 @@ namespace CustomImageBrowser.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
+        }
+
+        protected void Session_OnEnd(Object sender, EventArgs E)
+        {
+
+            foreach (var imageModel in ((List<ImageModel>)Session["images"]))
+            {
+                var fileName = imageModel.Name;
+                var thumbnail = fileName.Replace(Path.GetExtension(fileName), "_thumb" + Path.GetExtension(fileName));
+                var path = string.Format("{0}\\{1}", ImagesPath(), fileName);
+                var pathThumbnail = string.Format("{0}\\{1}", ImagesPath(), thumbnail);
+                try
+                {
+                    System.IO.File.Delete(path);
+                    System.IO.File.Delete(pathThumbnail);
+
+                    ((List<ImageModel>)Session["images"]).Remove(imageModel);
+                }
+                catch (Exception) { }
+            }
+        }
+
+        private string ImagesPath()
+        {
+            var path = string.Empty;
+
+#if DEBUG
+            path = System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/uploads");
+#else
+            path = System.Web.Hosting.HostingEnvironment.MapPath("~/uploads");
+#endif
+            return path;
         }
     }
 }

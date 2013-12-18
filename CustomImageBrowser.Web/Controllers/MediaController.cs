@@ -9,10 +9,20 @@ namespace CustomImageBrowser.Web.Controllers
 {
     public class MediaController : Controller
     {
+        private string ImagesSessionName = "images";
+
         public ActionResult ImageBrowser()
         {
             var model = new ImageBrowserModel();
-            model.Images = new List<ImageModel>();
+            var images = GetImagesFromSesstion();
+            if (images == null || images.Count == 0)
+            {
+                model.Images = new List<ImageModel>();
+            }
+            else
+            {
+                model.Images = GetImagesFromSesstion();
+            }
             return PartialView("ImageBrowser", model);
         }
 
@@ -61,11 +71,14 @@ namespace CustomImageBrowser.Web.Controllers
             {
                 var imageModel = new ImageModel
                 {
-                    OriginalName = qqfile,
-                    Id = imageName,
+                    Name = imageName,
+                    Id = imageName.Replace(Path.GetExtension(imageName), ""),
                     Url = Url.Action("Image", "Media", new { fileName = imageName }),
                     ThumbUrl = Url.Action("Thumbnail", "Media", new { fileName = imageName })
                 };
+
+                //Save the filename in the session
+                AddImageToSession(imageModel);
 
                 return Json(new { success = true, data = PartialViewToString("_Image", imageModel) }, JsonRequestBehavior.DenyGet);
             }
@@ -89,7 +102,7 @@ namespace CustomImageBrowser.Web.Controllers
         [HttpPost]
         public ActionResult Delete(ImageModel model)
         {
-            var fileName = model.Id;
+            var fileName = model.Name;
 
             var thumbnail = fileName.Replace(Path.GetExtension(fileName), "_thumb" + Path.GetExtension(fileName));
             var path = string.Format("{0}\\{1}", ImagesPath(), fileName);
@@ -98,7 +111,10 @@ namespace CustomImageBrowser.Web.Controllers
             {
                 System.IO.File.Delete(path);
                 System.IO.File.Delete(pathThumbnail);
-                return Json(new { success = true, data = fileName }, JsonRequestBehavior.AllowGet);
+
+                DeleteImageFromSession(model.Id);
+
+                return Json(new { success = true, data = model.Id }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {
@@ -125,6 +141,26 @@ namespace CustomImageBrowser.Web.Controllers
         }
 
         #region Private Methods
+
+        private List<ImageModel> GetImagesFromSesstion()
+        {
+            return ((List<ImageModel>)HttpContext.Session[ImagesSessionName]);
+        }
+
+        private void AddImageToSession(ImageModel model)
+        {
+            if (HttpContext.Session[ImagesSessionName] == null)
+            {
+                HttpContext.Session[ImagesSessionName] = new List<ImageModel>();
+            }
+            ((List<ImageModel>)HttpContext.Session[ImagesSessionName]).Add(model);
+        }
+
+        private void DeleteImageFromSession(string fileName)
+        {
+            var item = ((List<ImageModel>)HttpContext.Session[ImagesSessionName]).Find(x => x.Id == fileName);
+            ((List<ImageModel>)HttpContext.Session[ImagesSessionName]).Remove(item);
+        }
 
         private bool SaveImage(string fileName, Stream inputStream, string location, out string name)
         {

@@ -111,3 +111,5 @@ $(document).on('submit', '.image-browser-delete', function () {
     });
     return false;
 });
+
+

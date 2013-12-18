@@ -2,12 +2,13 @@
 
 <div id="image-browser-@Model.Id" class="container-browser-image">
     <div class="image-browser-img">
-        <img id="@Model.Id" src="@Model.ThumbUrl" data-url="@Model.Url" alt="@Model.OriginalName" class="clearfix" width="150" height="150" />
+        <img id="@Model.Id" src="@Model.ThumbUrl" data-url="@Model.Url" alt="@Model.Name" class="clearfix" width="150" height="150" />
     </div>
 
     @using (Html.BeginForm("Delete", "Media", FormMethod.Post, new { @class = "image-browser-delete" }))
     {
         @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => x.Name)
 
         <div class="image-controls">
              <a href="@Url.Action("Image", "Media", new { fileName = @Model.Id })" class="clearfix btn btn-link" target="_blank">
