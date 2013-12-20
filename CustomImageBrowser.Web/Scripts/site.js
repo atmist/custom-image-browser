@@ -1,4 +1,6 @@
 ﻿$(function () {
+    tinymce.baseURL = $.url("Scripts/tinymce");
+    tinymce.suffix = '.min';
     tinymce.init({
         selector: "textarea",
         plugins: [
