@@ -41,7 +41,7 @@ namespace CustomImageBrowser.Web
                     "~/Scripts/site.js"
             ));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
+            bundles.Add(new StyleBundle("~/Content/css/").Include(
                     "~/Content/bootstrap/css/bootstrap.min.css",
                     "~/Content/magnific-popup/magnific-popup.css",
                     "~/Content/fileuploader/fileuploader.css",
