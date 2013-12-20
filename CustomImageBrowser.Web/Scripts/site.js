@@ -43,7 +43,6 @@
                             }
                         }
                     });
-                    $.magnificPopup.instance.close()
                     popup.magnificPopup('open');
                 });
             }
@@ -52,7 +51,7 @@
 
     $(document).on('init-uploader', function () {
         if ($("#file-uploader").length > 0) {
-            var loading = $('.image-browser-controls .spinner-container');
+            var loading = $('.image-browser-controls');
             var uploader = new qq.FileUploader({
                 element: document.getElementById('file-uploader'),
                 allowedExtensions: ['jpg', 'jpeg', 'png'],
