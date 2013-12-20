@@ -47,5 +47,7 @@ namespace CustomImageBrowser.Web
                     "~/Content/fileuploader/fileuploader.css",
                     "~/Content/site.css"
                     ));
+
+        }
     }
 }
